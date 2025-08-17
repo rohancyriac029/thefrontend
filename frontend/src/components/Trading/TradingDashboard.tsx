@@ -21,6 +21,9 @@ import {
 import { useLocation, useNavigate } from 'react-router-dom';
 import CardPopup from '../Common/CardPopup';
 
+// Get API base URL from environment
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:3001';
+
 interface TradeOpportunity {
   id: string;
   product_id: string;
@@ -163,7 +166,7 @@ const TradingDashboard: React.FC<TradingDashboardProps> = ({ userRole, storeId }
   async function fetchStoreDetails(storeId: string): Promise<any> {
     if (storeDetailsCache[storeId]) return storeDetailsCache[storeId];
     try {
-      const res = await fetch(`/api/v1/stores/${storeId}`);
+      const res = await fetch(`${API_BASE_URL}/api/v1/stores/${storeId}`);
       if (!res.ok) throw new Error('Not found');
       const data = await res.json();
       storeDetailsCache[storeId] = data.data || data.store || data;
@@ -305,7 +308,7 @@ const TradingDashboard: React.FC<TradingDashboardProps> = ({ userRole, storeId }
       };
 
       // Create the trade record
-      const tradeResponse = await fetch('/api/v1/trades', {
+      const tradeResponse = await fetch(`${API_BASE_URL}/api/v1/trades`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -342,7 +345,7 @@ const TradingDashboard: React.FC<TradingDashboardProps> = ({ userRole, storeId }
       };
 
       // Call the marketplace API to create the bid
-      const response = await fetch('/api/v1/marketplace/bids', {
+      const response = await fetch(`${API_BASE_URL}/api/v1/marketplace/bids`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -370,7 +373,7 @@ const TradingDashboard: React.FC<TradingDashboardProps> = ({ userRole, storeId }
 
       // Mark the opportunity as processed in the AI system
       try {
-        await fetch(`/api/v1/ai-agents/opportunities/${opportunity.id}/process`, {
+        await fetch(`${API_BASE_URL}/api/v1/ai-agents/opportunities/${opportunity.id}/process`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -424,7 +427,7 @@ const TradingDashboard: React.FC<TradingDashboardProps> = ({ userRole, storeId }
 
       // Mark the opportunity as processed in the AI system
       try {
-        await fetch(`/api/v1/ai-agents/opportunities/${opportunity.id}/process`, {
+        await fetch(`${API_BASE_URL}/api/v1/ai-agents/opportunities/${opportunity.id}/process`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
