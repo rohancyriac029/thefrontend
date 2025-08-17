@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { AgentProduct, MarketBid, MarketMatch, MarketState, AIInsights } from '../types/api';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:3001';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://52.66.251.174/api';
 
 // Create axios instance with default config
 const api = axios.create({
