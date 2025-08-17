@@ -25,14 +25,15 @@ class WebSocketService {
   }
 
   connect() {
-    const socketUrl = process.env.REACT_APP_SOCKET_URL || 'http://localhost:3000';
+    const socketUrl = process.env.REACT_APP_SOCKET_URL || 'http://localhost:3001';
     
     this.socket = io(socketUrl, {
-      transports: ['websocket'],
+      transports: ['websocket', 'polling'],
       autoConnect: true,
       reconnection: true,
       reconnectionDelay: this.reconnectInterval,
       reconnectionAttempts: this.maxReconnectAttempts,
+      forceNew: true,
     });
 
     this.setupEventListeners();
