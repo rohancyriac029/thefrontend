@@ -22,7 +22,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import CardPopup from '../Common/CardPopup';
 
 // Get API base URL from environment
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:3001';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://52.66.251.174/api';
 
 interface TradeOpportunity {
   id: string;
@@ -317,8 +317,15 @@ const TradingDashboard: React.FC<TradingDashboardProps> = ({ userRole, storeId }
       });
 
       if (!tradeResponse.ok) {
-        const tradeError = await tradeResponse.json();
-        throw new Error(tradeError.error || 'Failed to create trade');
+        let errorMessage = 'Failed to create trade';
+        try {
+          const tradeError = await tradeResponse.json();
+          errorMessage = tradeError.error?.message || tradeError.error || errorMessage;
+        } catch (jsonError) {
+          // If JSON parsing fails, use the HTTP status
+          errorMessage = `HTTP ${tradeResponse.status}: ${tradeResponse.statusText}`;
+        }
+        throw new Error(errorMessage);
       }
 
       const tradeResult = await tradeResponse.json();
@@ -354,8 +361,15 @@ const TradingDashboard: React.FC<TradingDashboardProps> = ({ userRole, storeId }
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to create bid');
+        let errorMessage = 'Failed to create bid';
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.error?.message || errorData.error || errorMessage;
+        } catch (jsonError) {
+          // If JSON parsing fails, use the HTTP status
+          errorMessage = `HTTP ${response.status}: ${response.statusText}`;
+        }
+        throw new Error(errorMessage);
       }
 
       const result = await response.json();
