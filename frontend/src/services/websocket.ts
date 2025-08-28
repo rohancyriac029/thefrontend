@@ -25,7 +25,7 @@ class WebSocketService {
   }
 
   connect() {
-    const socketUrl = process.env.REACT_APP_SOCKET_URL || 'https://52.66.251.174';
+    const socketUrl = process.env.REACT_APP_SOCKET_URL || 'https://manufacturing-arbitrage.duckdns.org';
     
     this.socket = io(socketUrl, {
       transports: ['websocket', 'polling'],
