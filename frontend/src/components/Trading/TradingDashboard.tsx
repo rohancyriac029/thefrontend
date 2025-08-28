@@ -22,7 +22,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import CardPopup from '../Common/CardPopup';
 
 // Get API base URL from environment
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://52.66.251.174/api';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://manufacturing-arbitrage.duckdns.org/api';
 
 interface TradeOpportunity {
   id: string;
